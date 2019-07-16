@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <shape>
+            <!--<solid android:color="@color/button_unpress"/>-->
+            <corners android:radius="15dp"/>
+            <gradient android:endColor="#E79E0C"
+                android:startColor="#9EF3AB"
+                android:gradientRadius="10dp"
+                android:type="linear"/>
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <!--<solid android:color="@color/button_press"/>-->
+            <corners android:radius="15dp"/>
+            <gradient android:endColor="#FD3E8F"
+                android:startColor="#E7BD95"
+                android:gradientRadius="10dp"
+                android:type="linear"/>
+        </shape>
+    </item>
+</selector>

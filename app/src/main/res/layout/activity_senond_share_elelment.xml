@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:id="@+id/r1_root"
+    tools:context=".SharedElement.SecondShareElelment">
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="退出"
+        android:textSize="30sp"
+        android:background="@drawable/button"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="100dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <View android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#DDA0EB"
+            android:transitionName="share_one" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#D0F5AF"
+            android:gravity="center"
+            android:textColor="#DB3A1B"
+            android:transitionName="share_two"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#BED2E6"
+            android:textSize="30sp"
+            android:hint="请输入数据："
+            android:textColor="#75DF09"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

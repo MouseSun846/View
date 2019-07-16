@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:id="@+id/r1_root"
+    tools:context=".SharedElement.MyShareElement">
+    <View
+        android:id="@+id/view_share_one"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#83D6CA"
+        android:transitionName="share_one"/>
+    <TextView
+        android:id="@+id/view_share_two"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#D8B9B1"
+        android:text="点击我"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textColor="#D64276"
+        android:transitionName="share_two"/>
+    <Button
+        android:id="@+id/btn_act_close"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/button"
+        android:text="关闭"
+        android:textSize="30sp"
+        android:textColor="#E41A1A"/>
+</LinearLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="7dip"
+    android:paddingTop="7dip">
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dp"
+        android:layout_toLeftOf="@+id/iv_message_from_head_image"
+        android:background="@mipmap/icon_message_from"
+        android:gravity="center"
+        android:paddingRight="20dip"
+        android:text="我已经吃过了"
+        android:textColor="@color/white_normal"
+        android:textSize="16dip" />
+
+    <!--          -->
+    <ImageView
+        android:id="@+id/iv_message_from_head_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@mipmap/slide_left_avatar_default" />
+</RelativeLayout>
