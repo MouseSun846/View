@@ -3,6 +3,9 @@
     package="com.example.view">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication.MyApplication"
@@ -12,7 +15,10 @@
         android:roundIcon="@mipmap/demo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Multithreading.Multithreading"></activity>
+        <activity android:name=".MyNotification.NotificationActivity"></activity>
+        <activity android:name=".MySharePreference.MySharePreference" />
+        <activity android:name=".MyHttp.MyHttp" />
+        <activity android:name=".Multithreading.Multithreading" />
         <activity android:name=".Navigation.MyNavigation" />
         <activity android:name=".MyFragment.MyFragmntTest" />
         <activity android:name=".ContentProvider.MyContentProvider" />

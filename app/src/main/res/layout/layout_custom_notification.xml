@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/button">
+    <ImageView
+        android:id="@+id/noti_in_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/biu"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/tv_noti_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="30sp"
+        android:text="***通知***" />
+    <TextView
+        android:id="@+id/tv_noti_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_noti_title"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentRight="true"
+        android:text="----优秀不解释---"
+        android:textSize="30sp"/>
+
+</RelativeLayout>

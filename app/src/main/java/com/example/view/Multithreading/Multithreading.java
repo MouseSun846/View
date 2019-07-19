@@ -16,6 +16,7 @@ import com.example.view.R;
 import java.util.Random;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -90,21 +91,31 @@ public class Multithreading extends AppCompatActivity {
 
 
         //线程池技术
-        MyRejectedExrcutionHandler mrhandler = new MyRejectedExrcutionHandler();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,3,30, TimeUnit.SECONDS,new
-                LinkedBlockingDeque<Runnable>(6),sthreadFactory,mrhandler);
-        for (int i = 0; i < 10; i++) {
-            final  int iValue = i;
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    SystemClock.sleep(1000);
-                    Log.i("mouse","当前线程id:  "+android.os.Process.myTid()+"  iValue  " +iValue);
-                }
-            };
-            threadPoolExecutor.execute(runnable);
-        }
+//        MyRejectedExrcutionHandler mrhandler = new MyRejectedExrcutionHandler();
+//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(2,3,30, TimeUnit.SECONDS,new
+//                LinkedBlockingDeque<Runnable>(6),sthreadFactory,mrhandler);
+//        for (int i = 0; i < 10; i++) {
+//            final  int iValue = i;
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+//                    SystemClock.sleep(1000);
+//                    Log.i("mouse","当前线程id:  "+android.os.Process.myTid()+"  iValue  " +iValue);
+//                }
+//            };
+//            threadPoolExecutor.execute(runnable);
+//        }
 
+        //定时定期执行任务功能的线程池
+        //核心线程数为一个线程
+        ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Log.i("mouse","ScheduledThreadPoolExecutor 执行任务完成！！！");
+            }
+        };
+        executor.schedule(runnable,5,TimeUnit.SECONDS);
 
     }
     private static final ThreadFactory sthreadFactory = new ThreadFactory() {

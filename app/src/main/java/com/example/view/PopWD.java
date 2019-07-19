@@ -1,8 +1,13 @@
 package com.example.view;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RemoteViews;
 
 import com.example.view.BroadCastReceiver.MyBroadCastReceiver;
 import com.example.view.BroadCastReceiver.MyLocalBroadCastManager;
@@ -21,6 +27,9 @@ import com.example.view.ListView.MyListView;
 import com.example.view.Multithreading.Multithreading;
 import com.example.view.MyApplication.MyApplication;
 import com.example.view.MyFragment.MyFragmntTest;
+import com.example.view.MyHttp.MyHttp;
+import com.example.view.MyNotification.NotificationActivity;
+import com.example.view.MySharePreference.MySharePreference;
 import com.example.view.Navigation.MyNavigation;
 import com.example.view.RecycleView.GridRecycleView;
 import com.example.view.RecycleView.MyRecycleView;
@@ -29,6 +38,8 @@ import com.example.view.Service.MyServiceActivity;
 import com.example.view.SharedElement.MyShareElement;
 import com.example.view.ViewerPage.MyViewPage;
 import com.example.view.myToast.MyToast;
+
+import static java.lang.Thread.sleep;
 
 /**
  * 当前页面主要是通过点击相应的Button来实现相应的功能
@@ -39,7 +50,8 @@ public class PopWD extends AppCompatActivity {
     Button mbtn_staggerView,mbtn_ViewPage,mbtn_Toast,mbtn_gridrecycleview;
     Button mbtn_myServices,mbtn_myBroadCast,mbtn_myAPPBroadCast;
     Button  mbtn_myContentProvider,mbtn_myFragment,mbtn_MyNavigation;
-    Button mbtn_MultiThread;
+    Button mbtn_MultiThread,mbtn_MyHttp,mbtn_MySharePreference;
+    Button mbtn_MyNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +94,12 @@ public class PopWD extends AppCompatActivity {
         mbtn_MyNavigation.setOnClickListener(onclick);
         mbtn_MultiThread = findViewById(R.id.btn_MultiThread);
         mbtn_MultiThread.setOnClickListener(onclick);
+        mbtn_MyHttp = findViewById(R.id.btn_MyHttp);
+        mbtn_MyHttp.setOnClickListener(onclick);
+        mbtn_MySharePreference = findViewById(R.id.btn_MySharePreference);
+        mbtn_MySharePreference.setOnClickListener(onclick);
+        mbtn_MyNotification = findViewById(R.id.btn_MyNotification);
+        mbtn_MyNotification.setOnClickListener(onclick);
 
 
 
@@ -167,6 +185,17 @@ public class PopWD extends AppCompatActivity {
                     intent = new Intent(PopWD.this, Multithreading.class);
                     startActivity(intent);
                     break;
+                case R.id.btn_MyHttp:
+                    intent = new Intent(PopWD.this, MyHttp.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_MySharePreference:
+                    intent = new Intent(PopWD.this, MySharePreference.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_MyNotification:
+                    ShowMyNotification();
+                    break;
             }
         }
     }
@@ -212,4 +241,37 @@ public class PopWD extends AppCompatActivity {
             }
         }
     };
+
+
+    /**
+     * 通知代码
+     */
+    public void ShowMyNotification(){
+//        NotificationCompat.Builder mbuilder = new NotificationCompat.Builder(this).setSmallIcon(R.mipmap.demo).setContentTitle("测试").setContentText("内容");
+//        Intent intent = new Intent(PopWD.this, NotificationActivity.class);
+//        PendingIntent clickPending = PendingIntent.getActivity(this,0,intent,0);
+//        mbuilder.setContentIntent(clickPending);
+        //自定义布局
+        RemoteViews remoteViews = new RemoteViews(getPackageName(),R.layout.layout_custom_notification);
+        Notification mnotification = new Notification();
+        mnotification.icon = R.mipmap.demo;  //必须设置
+        mnotification.contentView = remoteViews;
+        //点击这条通知自动从通知栏取消
+//        mbuilder.setAutoCancel(true);
+        final NotificationManager mnotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        mnotificationManager.notify(1111,mbuilder.build());
+        mnotificationManager.notify(111,mnotification);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    sleep(3000);
+                    //删除通知
+                    mnotificationManager.cancel(1111);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 }
