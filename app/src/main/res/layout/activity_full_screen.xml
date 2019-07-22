@@ -113,6 +113,15 @@
                     android:text="-"
                     android:textSize="30sp" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/sbar_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
 
 
 </LinearLayout>

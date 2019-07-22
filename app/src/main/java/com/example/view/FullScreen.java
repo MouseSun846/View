@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import static java.lang.Thread.sleep;
@@ -22,6 +24,7 @@ public class FullScreen extends AppCompatActivity {
     TextView  tvName;
     ProgressBar progressBar;
     Button mbtn_plus,mbtn_minus,mbtn_pDialog,mbtn_paltDialog,mbtn_next;
+    SeekBar my_seekbar;
     private ProgressDialog progressDialog;
     int value = 0;
     @Override
@@ -42,7 +45,27 @@ public class FullScreen extends AppCompatActivity {
         mbtn_paltDialog.setOnClickListener(onClick);
         mbtn_next = findViewById(R.id.next_page);
         mbtn_next.setOnClickListener(onClick);
+        my_seekbar = findViewById(R.id.sbar_seekbar);
+        my_seekbar.setMax(100);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            my_seekbar.setMin(0);
+        }
+        my_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Log.i("mouse","current: "+seekBar.getProgress());
+            }
+        });
 
 
     }

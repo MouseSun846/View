@@ -1,12 +1,21 @@
 package com.example.view;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +27,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.example.view.BroadCastReceiver.MyBroadCastReceiver;
 import com.example.view.BroadCastReceiver.MyLocalBroadCastManager;
@@ -36,8 +46,13 @@ import com.example.view.RecycleView.MyRecycleView;
 import com.example.view.RecycleView.MyStaggerView;
 import com.example.view.Service.MyServiceActivity;
 import com.example.view.SharedElement.MyShareElement;
+import com.example.view.TextTureView.MyTextTureView;
 import com.example.view.ViewerPage.MyViewPage;
+import com.example.view.WebView.MyWebVIew;
 import com.example.view.myToast.MyToast;
+
+import java.util.List;
+import java.util.Locale;
 
 import static java.lang.Thread.sleep;
 
@@ -45,13 +60,15 @@ import static java.lang.Thread.sleep;
  * 当前页面主要是通过点击相应的Button来实现相应的功能
  */
 public class PopWD extends AppCompatActivity {
-    Button mbtn_popwdUP,mbtn_popwdDown,mbtn_dialogfrag;
-    Button mbtn_listView,mbtn_gridview,mbtn_recycleView,mbtn_gridrecView;
-    Button mbtn_staggerView,mbtn_ViewPage,mbtn_Toast,mbtn_gridrecycleview;
-    Button mbtn_myServices,mbtn_myBroadCast,mbtn_myAPPBroadCast;
-    Button  mbtn_myContentProvider,mbtn_myFragment,mbtn_MyNavigation;
-    Button mbtn_MultiThread,mbtn_MyHttp,mbtn_MySharePreference;
-    Button mbtn_MyNotification;
+    private LocationManager locationManager;
+    Button mbtn_popwdUP, mbtn_popwdDown, mbtn_dialogfrag;
+    Button mbtn_listView, mbtn_gridview, mbtn_recycleView, mbtn_gridrecView;
+    Button mbtn_staggerView, mbtn_ViewPage, mbtn_Toast, mbtn_gridrecycleview;
+    Button mbtn_myServices, mbtn_myBroadCast, mbtn_myAPPBroadCast;
+    Button mbtn_myContentProvider, mbtn_myFragment, mbtn_MyNavigation;
+    Button mbtn_MultiThread, mbtn_MyHttp, mbtn_MySharePreference;
+    Button mbtn_MyNotification, mbtn_TextTureView;
+    Button mbtn_JumpBroswer, mbtn_WebView, mbtn_Dingwei;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,29 +117,38 @@ public class PopWD extends AppCompatActivity {
         mbtn_MySharePreference.setOnClickListener(onclick);
         mbtn_MyNotification = findViewById(R.id.btn_MyNotification);
         mbtn_MyNotification.setOnClickListener(onclick);
+        mbtn_TextTureView = findViewById(R.id.btn_TextTureView);
+        mbtn_TextTureView.setOnClickListener(onclick);
+        mbtn_JumpBroswer = findViewById(R.id.btn_JumpBroswer);
+        mbtn_JumpBroswer.setOnClickListener(onclick);
+        mbtn_WebView = findViewById(R.id.btn_WebView);
+        mbtn_WebView.setOnClickListener(onclick);
+        mbtn_Dingwei = findViewById(R.id.btn_Dingwei);
+        mbtn_Dingwei.setOnClickListener(onclick);
 
 
 
     }
-    public class popOnclick implements View.OnClickListener{
+
+    public class popOnclick implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             Intent intent = null;
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_popwdup:
                     showAsDropDown();
-                break;
+                    break;
                 case R.id.btn_popwddown:
                     showBottomPopupWindow();
                     break;
-                case  R.id.btn_dialogFrag:
+                case R.id.btn_dialogFrag:
 //                    MyDialogFragment.newInstance().show(getSupportFragmentManager(),"MyDialog");
                     MyDialogFragment myDialogFragment = MyDialogFragment.newInstance();
                     myDialogFragment.setOnClickListener(onClickListener);
-                    myDialogFragment.show(getSupportFragmentManager(),"Plant");
+                    myDialogFragment.show(getSupportFragmentManager(), "Plant");
                     break;
-                case  R.id.btn_listview:            //列表视图
+                case R.id.btn_listview:            //列表视图
                     intent = new Intent(PopWD.this, MyListView.class);
                     startActivity(intent);
                     break;
@@ -196,10 +222,90 @@ public class PopWD extends AppCompatActivity {
                 case R.id.btn_MyNotification:
                     ShowMyNotification();
                     break;
+                case R.id.btn_TextTureView:
+                    intent = new Intent(PopWD.this, MyTextTureView.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_JumpBroswer:
+                    Uri uri = Uri.parse("http://www.baidu.com");
+                    intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_WebView:
+                    intent = new Intent(PopWD.this, MyWebVIew.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_Dingwei:
+                    //获取定位
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    boolean gps = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                    if (!gps) {
+                        Toast.makeText(PopWD.this, "请设置界面开启GPS定位服务", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            showmyLocation(location);
+                            break;
+                        } else {
+                            Toast.makeText(PopWD.this, "NULL", Toast.LENGTH_LONG).show();
+                        }
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+
+                    break;
             }
         }
     }
 
+    /**
+     *监听位置变化
+     * 参数1：定位方式，主要有GPS_PROVIDER和NETWORK_PROVIDER,前者是GPS，或者是GPRS以及WIFI定位
+     * 参数2：位置信息更新周期，单位是 毫秒
+     * 参数3：位置变化最小周期。当位置变化超过此值时，将更新位置信息
+     * 参数4：监听
+     */
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            showmyLocation(location);
+        }
+        //当位置提供者的 状态发生改变
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+        //位置信息提供者可用时自动调用，例如GPS开启
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+        //位置信息不可用时自动调用，例如禁用GPS
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
+
+
+    public void showmyLocation(Location  location){
+        Toast.makeText(PopWD.this,"经度："+location.getLongitude()+"\n维度："+location.getLatitude(),Toast.LENGTH_LONG).show();
+        Log.i("mouse","经度："+location.getLongitude()+"\n维度："+location.getLatitude());
+        Geocoder geocoder = new Geocoder(this, Locale.CHINA);
+        try{
+            //参数1 ： 纬度  参数 2：经度 参数 3：返回地址的数目(由于同一纬度肯对应多个地址，该参数1--5
+            List<Address> addressList = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            Log.i("mouse","len +"+addressList.size());
+            for (Address address : addressList) {
+                Log.i("mouse",address.toString());
+            }
+            Toast.makeText(PopWD.this,addressList.get(0).getAddressLine(0),Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+               Log.i("mouse",e.toString());
+        }
+    }
     /**
      * 函数功能：主要是弹出对话框 显示在桌面中间
      */
@@ -254,7 +360,8 @@ public class PopWD extends AppCompatActivity {
         //自定义布局
         RemoteViews remoteViews = new RemoteViews(getPackageName(),R.layout.layout_custom_notification);
         Notification mnotification = new Notification();
-        mnotification.icon = R.mipmap.demo;  //必须设置
+        //必须设置,否则不能 通知消息
+        mnotification.icon = R.mipmap.demo;
         mnotification.contentView = remoteViews;
         //点击这条通知自动从通知栏取消
 //        mbuilder.setAutoCancel(true);
@@ -273,5 +380,11 @@ public class PopWD extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(locationListener);
     }
 }

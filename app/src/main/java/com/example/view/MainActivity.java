@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,9 +33,12 @@ public class MainActivity extends AppCompatActivity {
         //启动Actity,并设置动画
         startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());  //跳转到全屏界面
 
-
             }
         });
+        JNITest jniTest = new JNITest();
+        Log.i("mouse","JNI : "+ jniTest.stringFromJNI());
+
+
     }
 
 //    public void getAndroiodScreenProperty() {
@@ -57,4 +61,10 @@ public class MainActivity extends AppCompatActivity {
 ////        Log.d("h_bl", "屏幕宽度（dp）：" + screenWidth);         //640dp
 ////        Log.d("h_bl", "屏幕高度（dp）：" + screenHeight);        //360dp
 //    }
+
+    static {
+        System.loadLibrary("JNITest");
+    }
+
+
 }
